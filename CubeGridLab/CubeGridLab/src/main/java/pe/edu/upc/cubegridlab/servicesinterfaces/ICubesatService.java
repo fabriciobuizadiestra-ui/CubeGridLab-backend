@@ -16,4 +16,6 @@ public interface ICubesatService {
     void update(Cubesat c);
 
     void delete(int id);
+
+    Long contarCubesatsUtilizadosEnSimulaciones();
 }

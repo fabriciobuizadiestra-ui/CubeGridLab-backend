@@ -39,4 +39,9 @@ public class CubesatServiceImplement implements ICubesatService {
     public void delete(int id) {
         cR.deleteById(id);
     }
+
+    @Override
+    public Long contarCubesatsUtilizadosEnSimulaciones() {
+        return cR.contarCubesatsUtilizadosEnSimulaciones();
+    }
 }
