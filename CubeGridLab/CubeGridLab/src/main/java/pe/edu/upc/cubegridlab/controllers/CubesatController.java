@@ -21,6 +21,11 @@ public class CubesatController {
         return cS.list();
     }
 
+    @GetMapping("/total-utilizados-simulaciones")
+    public Long contarCubesatsUtilizadosEnSimulaciones() {
+        return cS.contarCubesatsUtilizadosEnSimulaciones();
+    }
+
     @PostMapping
     public ResponseEntity<?> registrar(@RequestBody Cubesat c) {
         return ResponseEntity.ok(cS.insert(c));

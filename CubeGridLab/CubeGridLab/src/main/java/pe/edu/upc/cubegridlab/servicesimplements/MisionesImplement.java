@@ -37,4 +37,9 @@ public class MisionesImplement implements IMisionesService {
     public void delete(int id) {
         mR.deleteById(id);
     }
+
+    @Override
+    public Long contarMisionesExitosas() {
+        return mR.contarMisionesExitosas();
+    }
 }

@@ -21,6 +21,10 @@ public class MisionesController {
         return mS.list();
     }
 
+    @GetMapping("/cantidad-exitosas")
+    public Long contarMisionesExitosas() {
+        return mS.contarMisionesExitosas();
+    }
     @PostMapping
     public ResponseEntity<?> registrar(@RequestBody Misiones m) {
         return ResponseEntity.ok(mS.insert(m));

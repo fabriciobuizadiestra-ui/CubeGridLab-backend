@@ -11,4 +11,5 @@ public interface IMisionesService {
     Optional<Misiones> listId(int id);
     void update(Misiones m);
     void delete(int id);
+    Long contarMisionesExitosas();
 }
