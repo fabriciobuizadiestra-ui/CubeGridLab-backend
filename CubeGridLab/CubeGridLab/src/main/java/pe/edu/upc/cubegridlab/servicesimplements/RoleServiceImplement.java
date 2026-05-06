@@ -17,5 +17,10 @@ public class RoleServiceImplement implements IRoleService {
     public List<Role> list() {
         return rR.findAll();
     }
+
+    @Override
+    public List<Object[]> quantityUserByRole() {
+        return rR.quantityUserByRole();
+    }
 }
 
