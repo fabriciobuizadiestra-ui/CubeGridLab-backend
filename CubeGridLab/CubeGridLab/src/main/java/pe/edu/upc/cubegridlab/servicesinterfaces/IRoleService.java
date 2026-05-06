@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface IRoleService {
     public List<Role> list();
+    public List<Object[]> quantityUserByRole();
 }
 

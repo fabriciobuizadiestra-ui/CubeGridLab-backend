@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.cubegridlab.dtos.UserDTO;
+import pe.edu.upc.cubegridlab.dtos.UserFindByRegisterDateAndStatusDTO;
 import pe.edu.upc.cubegridlab.dtos.UserInsertDTO;
 import pe.edu.upc.cubegridlab.dtos.UserUpdateDTO;
 import pe.edu.upc.cubegridlab.entities.User;
@@ -13,6 +14,8 @@ import pe.edu.upc.cubegridlab.entities.User_Role;
 import pe.edu.upc.cubegridlab.servicesinterfaces.IUserService;
 import pe.edu.upc.cubegridlab.servicesinterfaces.IUser_RoleService;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -159,7 +162,28 @@ public class UserController {
                     .body("Error al eliminar usuario: " + e.getMessage());
         }
     }
-
+    @GetMapping("/filtro-de-correos")
+    public ResponseEntity<?> findByStatusTrueAndRegistrationDateBetween(@RequestParam("startDate") LocalDate startDate,
+                                             @RequestParam("endDate") LocalDate endDate){
+        if (startDate == null || endDate == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Las fechas de inicio y fin son obligatorias");
+        }
+        if (startDate.isAfter(endDate))
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("La fecha de inicio no puede ser posterior a la fecha de fin");
+        }
+        ModelMapper m =new ModelMapper();
+        List<UserFindByRegisterDateAndStatusDTO> listaBusqueda= uS.findByStatusTrueAndRegistrationDateBetween(startDate, endDate)
+                .stream().map(l->m.map(l,UserFindByRegisterDateAndStatusDTO.class))
+                .collect(Collectors.toList());
+        if(listaBusqueda.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No hay usuarios registrados entre estas fechas");
+        }
+        return ResponseEntity.ok(listaBusqueda);
+    }
     @PostMapping("/logout")
     public ResponseEntity<String> cerrarSesion() {
         return ResponseEntity.ok("Sesión cerrada correctamente");

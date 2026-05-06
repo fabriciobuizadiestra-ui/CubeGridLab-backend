@@ -7,6 +7,7 @@ import pe.edu.upc.cubegridlab.entities.User;
 import pe.edu.upc.cubegridlab.repositories.IUserRepository;
 import pe.edu.upc.cubegridlab.servicesinterfaces.IUserService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,5 +61,10 @@ public class UserServiceImplement implements IUserService{
     public Optional<User> findByEmail(String emailUser) {
         return uR.findByEmailUser(emailUser);
 
+    }
+
+    @Override
+    public List<User> findByStatusTrueAndRegistrationDateBetween(LocalDate startDate, LocalDate endDate) {
+        return uR.findByStatusTrueAndRegistrationDateBetween(startDate, endDate);
     }
 }
