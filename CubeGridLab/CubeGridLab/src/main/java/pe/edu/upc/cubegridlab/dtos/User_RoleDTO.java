@@ -1,26 +1,50 @@
 package pe.edu.upc.cubegridlab.dtos;
 
-import pe.edu.upc.cubegridlab.entities.User;
-import pe.edu.upc.cubegridlab.entities.Role;
-
 public class User_RoleDTO {
-    private User user;
-    private Role role;
+    private int idUserRole;
+    private int idUser;
+    private String nameUser;
+    private int idRole;
+    private String nameRole;
 
-    public User getUser() {
-        return user;
+    // Getters and setters
+    public int getIdUserRole() {
+        return idUserRole;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setIdUserRole(int idUserRole) {
+        this.idUserRole = idUserRole;
     }
 
-    public Role getRole() {
-        return role;
+    public int getIdUser() {
+        return idUser;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getNameUser() {
+        return nameUser;
+    }
+
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
+    }
+
+    public int getIdRole() {
+        return idRole;
+    }
+
+    public void setIdRole(int idRole) {
+        this.idRole = idRole;
+    }
+
+    public String getNameRole() {
+        return nameRole;
+    }
+
+    public void setNameRole(String nameRole) {
+        this.nameRole = nameRole;
     }
 }
-

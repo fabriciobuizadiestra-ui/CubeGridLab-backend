@@ -1,6 +1,5 @@
 package pe.edu.upc.cubegridlab.controllers;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +21,17 @@ public class User_RoleController {
 
     @GetMapping
     public ResponseEntity<List<User_RoleDTO>> listar() {
-        ModelMapper m = new ModelMapper();
         List<User_RoleDTO> listaUserRoles = urS.list().stream()
-                .map(y -> m.map(y, User_RoleDTO.class))
+                .map(y -> {
+                    User_RoleDTO dto = new User_RoleDTO();
+                    dto.setIdUserRole(y.getIdUserRole());
+                    dto.setIdUser(y.getUser().getIdUser());
+                    dto.setNameUser(y.getUser().getNameUser());
+                    dto.setIdRole(y.getRole().getIdRole());
+                    dto.setNameRole(y.getRole().getNameRole());
+                    return dto;
+                })
+                .sorted((a, b) -> Integer.compare(a.getIdUserRole(), b.getIdUserRole()))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(listaUserRoles);
     }
