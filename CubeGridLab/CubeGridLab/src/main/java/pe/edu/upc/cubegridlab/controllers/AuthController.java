@@ -18,6 +18,7 @@ import pe.edu.upc.cubegridlab.servicesinterfaces.IUserService;
 import pe.edu.upc.cubegridlab.servicesinterfaces.IUser_RoleService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -74,10 +75,10 @@ public class AuthController {
             responseDTO.setNameUser(user.getNameUser());
             responseDTO.setEmailUser(user.getEmailUser());
 
-            Optional<User_Role> userRole = urS.findByUserId(user.getIdUser());
-            if (userRole.isPresent()) {
+            List<User_Role> userRoles = urS.findByUserId(user.getIdUser());
+            if (!userRoles.isEmpty()) {
                 responseDTO.setRoleUser(
-                        userRole.get().getRole().getNameRole()
+                        userRoles.get(0).getRole().getNameRole()
                 );
             }
 

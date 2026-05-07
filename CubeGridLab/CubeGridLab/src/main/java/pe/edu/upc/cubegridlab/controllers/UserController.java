@@ -15,7 +15,6 @@ import pe.edu.upc.cubegridlab.servicesinterfaces.IUserService;
 import pe.edu.upc.cubegridlab.servicesinterfaces.IUser_RoleService;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,10 +40,13 @@ public class UserController {
         dto.setNameUser(user.getNameUser());
         dto.setEmailUser(user.getEmailUser());
 
-        // Obtener el rol del usuario
-        Optional<User_Role> userRole = urS.findByUserId(user.getIdUser());
-        if (userRole.isPresent() && userRole.get().getRole() != null) {
-            dto.setRoleUser(userRole.get().getRole().getNameRole());
+        // Obtener los roles del usuario
+        List<User_Role> userRoles = urS.findByUserId(user.getIdUser());
+        if (!userRoles.isEmpty()) {
+            String roles = userRoles.stream()
+                    .map(ur -> ur.getRole().getNameRole())
+                    .collect(Collectors.joining(", "));
+            dto.setRoleUser(roles);
         }
 
         return dto;

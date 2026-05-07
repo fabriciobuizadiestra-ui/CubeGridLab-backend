@@ -41,10 +41,12 @@ public class JwtUserDetailsService implements UserDetailsService {
 
         // Obtener roles del usuario
         List<GrantedAuthority> authorities = new ArrayList<>();
-        Optional<User_Role> userRole = userRoleRepository.findByUserIdUser(userData.getIdUser());
+        List<User_Role> userRoles = userRoleRepository.findByUserIdUser(userData.getIdUser());
 
-        if (userRole.isPresent()) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + userRole.get().getRole().getNameRole()));
+        if (!userRoles.isEmpty()) {
+            for (User_Role ur : userRoles) {
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + ur.getRole().getNameRole()));
+            }
         } else {
             // Si no tiene rol asignado, asignar rol por defecto
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
