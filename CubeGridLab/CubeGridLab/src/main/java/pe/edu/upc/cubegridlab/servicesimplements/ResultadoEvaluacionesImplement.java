@@ -35,4 +35,9 @@ public class ResultadoEvaluacionesImplement implements IResultadoEvaluacionesSer
     public void delete(int id) {
         reR.deleteById(id);
     }
+
+    @Override
+    public List<Object[]> quantityResultsByUser() {
+        return reR.quantityResultsByUser();
+    }
 }

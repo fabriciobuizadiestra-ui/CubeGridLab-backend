@@ -11,4 +11,5 @@ public interface IResultadoEvaluacionesService {
     Optional<ResultadoEvaluacion> listId(int id);
     void update(ResultadoEvaluacion r);
     void delete(int id);
+    List<Object[]> quantityResultsByUser();
 }
