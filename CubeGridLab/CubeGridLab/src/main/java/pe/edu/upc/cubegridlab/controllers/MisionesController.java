@@ -25,6 +25,12 @@ public class MisionesController {
     public Long contarMisionesExitosas() {
         return mS.contarMisionesExitosas();
     }
+
+    @GetMapping("/reporte-misiones-usuario")
+    public List<Object[]> reporteMisionesPorUsuario() {
+        return mS.quantityMissionsByUser();
+    }
+
     @PostMapping
     public ResponseEntity<?> registrar(@RequestBody Misiones m) {
         return ResponseEntity.ok(mS.insert(m));

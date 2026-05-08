@@ -21,6 +21,11 @@ public class ResultadoEvaluacionController {
         return rS.list();
     }
 
+    @GetMapping("/reporte-resultados-usuario")
+    public List<Object[]> reporteResultadosPorUsuario() {
+        return rS.quantityResultsByUser();
+    }
+
     @PostMapping
     public ResponseEntity<?> registrar(@RequestBody ResultadoEvaluacion r) {
         return ResponseEntity.ok(rS.insert(r));
