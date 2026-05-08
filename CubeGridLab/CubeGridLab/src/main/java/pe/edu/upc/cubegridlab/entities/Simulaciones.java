@@ -2,6 +2,7 @@ package pe.edu.upc.cubegridlab.entities;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name="Simulaciones")
@@ -30,6 +31,9 @@ public class Simulaciones {
     @ManyToOne
     @JoinColumn(name = "id_mision")
     private Misiones mision;
+
+    @OneToMany(mappedBy = "simulacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SensorData> sensorDataList;
 
     public int getIdSimulacion() {
         return idSimulacion;
@@ -117,5 +121,13 @@ public class Simulaciones {
 
     public void setResultado(String resultado) {
         this.resultado = resultado;
+    }
+
+    public List<SensorData> getSensorDataList() {
+        return sensorDataList;
+    }
+
+    public void setSensorDataList(List<SensorData> sensorDataList) {
+        this.sensorDataList = sensorDataList;
     }
 }
