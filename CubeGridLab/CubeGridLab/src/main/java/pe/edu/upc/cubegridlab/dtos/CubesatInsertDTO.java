@@ -1,44 +1,12 @@
-package pe.edu.upc.cubegridlab.entities;
+package pe.edu.upc.cubegridlab.dtos;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "cubesats")
-public class Cubesat {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idCubesat;
-
-    @Column(length = 100, nullable = false)
+public class CubesatInsertDTO {
     private String nombre;
-
-    @Column(nullable = false)
     private double masa;
-
-    @Column(length = 100)
     private String dimensiones;
-
-    @Column(length = 50)
     private String frecuencia;
-
-    @Column(length = 30)
     private String estado;
-
-    @ManyToOne
-    @JoinColumn(name = "id_usuario")
-    private User usuario;
-
-    public Cubesat() {
-    }
-
-    public int getIdCubesat() {
-        return idCubesat;
-    }
-
-    public void setIdCubesat(int idCubesat) {
-        this.idCubesat = idCubesat;
-    }
+    private Integer idUsuario;
 
     public String getNombre() {
         return nombre;
@@ -80,11 +48,11 @@ public class Cubesat {
         this.estado = estado;
     }
 
-    public User getUsuario() {
-        return usuario;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(User usuario) {
-        this.usuario = usuario;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }
