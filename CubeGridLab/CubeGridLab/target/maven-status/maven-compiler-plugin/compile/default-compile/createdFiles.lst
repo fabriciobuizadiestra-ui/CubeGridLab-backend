@@ -1,12 +1,15 @@
+pe\edu\upc\cubegridlab\dtos\CubesatInsertDTO.class
 pe\edu\upc\cubegridlab\dtos\SensorDataResponseDTO$SensorBasicDTO.class
 pe\edu\upc\cubegridlab\dtos\SensorResponseDTO.class
 pe\edu\upc\cubegridlab\dtos\UserFindByRegisterDateAndStatusDTO.class
 pe\edu\upc\cubegridlab\servicesimplements\SimulacionesServiceImplement.class
 pe\edu\upc\cubegridlab\servicesinterfaces\ISensorDataService.class
+pe\edu\upc\cubegridlab\repositories\ICursoRepository.class
 pe\edu\upc\cubegridlab\controllers\ResultadoEvaluacionController.class
 pe\edu\upc\cubegridlab\dtos\User_RoleAssignResponseDTO.class
 pe\edu\upc\cubegridlab\servicesinterfaces\IRoleService.class
 pe\edu\upc\cubegridlab\controllers\CubesatController.class
+pe\edu\upc\cubegridlab\dtos\CubesatResponseDTO.class
 pe\edu\upc\cubegridlab\controllers\EvaluacionesController.class
 pe\edu\upc\cubegridlab\servicesimplements\InstitucionServiceImplement.class
 pe\edu\upc\cubegridlab\entities\Misiones.class
@@ -17,8 +20,10 @@ pe\edu\upc\cubegridlab\controllers\IoTDeviceController.class
 pe\edu\upc\cubegridlab\repositories\IResultadoEvaluacionRepository.class
 pe\edu\upc\cubegridlab\securities\SecurityConfig.class
 pe\edu\upc\cubegridlab\entities\User_Role.class
+pe\edu\upc\cubegridlab\dtos\MisionResponseDTO.class
 pe\edu\upc\cubegridlab\entities\Simulaciones.class
 pe\edu\upc\cubegridlab\dtos\UpdateSensorDataDTO.class
+pe\edu\upc\cubegridlab\dtos\MisionInsertDTO.class
 pe\edu\upc\cubegridlab\servicesimplements\DataGeneratorService.class
 pe\edu\upc\cubegridlab\servicesimplements\EvaluacionesImplement.class
 pe\edu\upc\cubegridlab\dtos\AssignRoleDTO.class
@@ -33,6 +38,7 @@ pe\edu\upc\cubegridlab\servicesinterfaces\ISimulacionesService.class
 pe\edu\upc\cubegridlab\controllers\SensorDataController.class
 pe\edu\upc\cubegridlab\servicesimplements\User_RoleServiceImplement.class
 pe\edu\upc\cubegridlab\dtos\UpdateIoTDeviceDTO.class
+pe\edu\upc\cubegridlab\dtos\CubesatUpdateDTO.class
 pe\edu\upc\cubegridlab\controllers\SimulacionesController.class
 pe\edu\upc\cubegridlab\dtos\UpdateSensorDTO.class
 pe\edu\upc\cubegridlab\servicesimplements\SensorServiceImplement.class
@@ -46,10 +52,13 @@ pe\edu\upc\cubegridlab\servicesimplements\MisionesImplement.class
 pe\edu\upc\cubegridlab\dtos\CreateIoTDeviceDTO.class
 pe\edu\upc\cubegridlab\servicesinterfaces\ICubesatService.class
 pe\edu\upc\cubegridlab\servicesinterfaces\IIoTDeviceService.class
+pe\edu\upc\cubegridlab\dtos\SimulacionResponseDTO.class
 pe\edu\upc\cubegridlab\servicesinterfaces\IResultadoEvaluacionesService.class
 pe\edu\upc\cubegridlab\dtos\IoTDeviceDTO.class
 pe\edu\upc\cubegridlab\controllers\RoleController.class
+pe\edu\upc\cubegridlab\dtos\ResultadoEvaluacionResponseDTO.class
 pe\edu\upc\cubegridlab\repositories\ICubesatRepository.class
+pe\edu\upc\cubegridlab\dtos\ResultadoEvaluacionInsertDTO.class
 pe\edu\upc\cubegridlab\controllers\SensorController.class
 pe\edu\upc\cubegridlab\repositories\IUser_RoleRepository.class
 pe\edu\upc\cubegridlab\servicesinterfaces\ISensorService.class
@@ -89,6 +98,7 @@ pe\edu\upc\cubegridlab\servicesinterfaces\IMisionesService.class
 pe\edu\upc\cubegridlab\controllers\AuthController.class
 pe\edu\upc\cubegridlab\servicesimplements\CubesatServiceImplement.class
 pe\edu\upc\cubegridlab\dtos\QuantityUsersByRoleDTO.class
+pe\edu\upc\cubegridlab\dtos\SimulacionInsertDTO.class
 pe\edu\upc\cubegridlab\servicesinterfaces\IUserService.class
 pe\edu\upc\cubegridlab\servicesimplements\SensorDataServiceImplement.class
 pe\edu\upc\cubegridlab\dtos\RoleDTO.class
@@ -97,3 +107,4 @@ pe\edu\upc\cubegridlab\entities\ResultadoEvaluacion.class
 pe\edu\upc\cubegridlab\dtos\CreateSensorDTO.class
 pe\edu\upc\cubegridlab\dtos\InstitucionDTO.class
 pe\edu\upc\cubegridlab\entities\Curso.class
+pe\edu\upc\cubegridlab\dtos\EvaluacionInsertDTO.class
