@@ -42,4 +42,9 @@ public class MisionesImplement implements IMisionesService {
     public Long contarMisionesExitosas() {
         return mR.contarMisionesExitosas();
     }
+
+    @Override
+    public List<Object[]> quantityMissionsByUser() {
+        return mR.quantityMissionsByUser();
+    }
 }

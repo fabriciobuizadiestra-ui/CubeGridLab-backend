@@ -12,4 +12,5 @@ public interface IMisionesService {
     void update(Misiones m);
     void delete(int id);
     Long contarMisionesExitosas();
+    List<Object[]> quantityMissionsByUser();
 }
