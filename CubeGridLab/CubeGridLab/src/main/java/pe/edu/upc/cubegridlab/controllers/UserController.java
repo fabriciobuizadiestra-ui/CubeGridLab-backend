@@ -37,6 +37,8 @@ public class UserController {
 
     private UserDTO convertUserToDTO(User user) {
         UserDTO dto = new UserDTO();
+
+        dto.setIdUser(user.getIdUser());
         dto.setNameUser(user.getNameUser());
         dto.setEmailUser(user.getEmailUser());
 
