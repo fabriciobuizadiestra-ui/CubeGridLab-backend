@@ -3,6 +3,7 @@ package pe.edu.upc.cubegridlab.dtos;
 public class UserDTO {
     private int idUser;
     private String nameUser;
+    private String lastNameUser;
     private String emailUser;
     private String roleUser;
 
@@ -36,5 +37,13 @@ public class UserDTO {
 
     public void setRoleUser(String roleUser) {
         this.roleUser = roleUser;
+    }
+
+    public String getLastNameUser() {
+        return lastNameUser;
+    }
+
+    public void setLastNameUser(String lastNameUser) {
+        this.lastNameUser = lastNameUser;
     }
 }

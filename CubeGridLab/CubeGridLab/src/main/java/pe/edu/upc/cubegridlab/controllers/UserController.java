@@ -40,6 +40,7 @@ public class UserController {
 
         dto.setIdUser(user.getIdUser());
         dto.setNameUser(user.getNameUser());
+        dto.setLastNameUser(user.getLastNameUser());
         dto.setEmailUser(user.getEmailUser());
 
         // Obtener los roles del usuario
