@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.cubegridlab.dtos.User_RoleAssignDTO;
 import pe.edu.upc.cubegridlab.dtos.User_RoleAssignResponseDTO;
 import pe.edu.upc.cubegridlab.dtos.User_RoleDTO;
+import pe.edu.upc.cubegridlab.entities.User;
 import pe.edu.upc.cubegridlab.entities.User_Role;
 import pe.edu.upc.cubegridlab.servicesinterfaces.IUser_RoleService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -65,6 +67,28 @@ public class User_RoleController {
                     .body("Error al asignar rol: " + e.getMessage());
         }
     }
+    @DeleteMapping("/{idUserRole}")
+    public ResponseEntity<String> eliminar(@PathVariable int idUserRole) {
+        // Validación de entrada
+        if (idUserRole <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("ID de asignación inválido");
+        }
 
+        try {
+            Optional<User_Role> user_role = urS.listId(idUserRole);
+
+            if (user_role.isPresent()) {
+                urS.delete(idUserRole);
+                return ResponseEntity.ok("Asignación eliminada correctamente");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Asignación no encontrada");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al eliminar asignación: " + e.getMessage());
+        }
+    }
 
 }
