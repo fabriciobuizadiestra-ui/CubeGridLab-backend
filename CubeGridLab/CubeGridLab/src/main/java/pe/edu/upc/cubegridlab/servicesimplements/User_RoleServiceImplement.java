@@ -58,4 +58,14 @@ public class User_RoleServiceImplement implements IUser_RoleService {
         return urR.save(userRole);
     }
 
+    @Override
+    public void delete(int idUserRole) {
+        urR.deleteById(idUserRole);
+    }
+
+    @Override
+    public Optional<User_Role> listId(int idUserRole) {
+        return urR.findById(idUserRole);
+    }
+
 }
