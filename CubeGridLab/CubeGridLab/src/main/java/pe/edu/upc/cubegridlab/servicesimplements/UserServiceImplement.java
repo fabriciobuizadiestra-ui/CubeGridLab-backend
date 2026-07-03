@@ -42,9 +42,9 @@ public class UserServiceImplement implements IUserService{
     public void update(User u) {
         Optional<User> existingUser = uR.findById(u.getIdUser());
         if (existingUser.isPresent()) {
-            // Solo encriptar si la contraseña fue cambiada
+            // Encriptar si la contraseña fue cambiada
             if (u.getPasswordUser() != null && !u.getPasswordUser().isEmpty()) {
-                if (!u.getPasswordUser().equals(existingUser.get().getPasswordUser())) {
+                if (!passwordEncoder.matches(u.getPasswordUser(), existingUser.get().getPasswordUser())) {
                     u.setPasswordUser(passwordEncoder.encode(u.getPasswordUser()));
                 }
             }
