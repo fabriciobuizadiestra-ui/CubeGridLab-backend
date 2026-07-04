@@ -38,6 +38,21 @@ public class User_RoleController {
         return ResponseEntity.ok(listaUserRoles);
     }
 
+    @GetMapping("/{idUserRole}")
+    public ResponseEntity<?> obtenerPorId(@PathVariable int idUserRole) {
+        Optional<User_Role> ur = urS.listId(idUserRole);
+        if (ur.isPresent()) {
+            User_RoleDTO dto = new User_RoleDTO();
+            dto.setIdUserRole(ur.get().getIdUserRole());
+            dto.setIdUser(ur.get().getUser().getIdUser());
+            dto.setNameUser(ur.get().getUser().getNameUser());
+            dto.setIdRole(ur.get().getRole().getIdRole());
+            dto.setNameRole(ur.get().getRole().getNameRole());
+            return ResponseEntity.ok(dto);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Asignación no encontrada");
+    }
+
     @PostMapping("/asignar")
     public ResponseEntity<?> asignarRolAUsuario(@RequestBody User_RoleAssignDTO assignDTO){
         try {
@@ -65,6 +80,30 @@ public class User_RoleController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al asignar rol: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/Actualizar")
+    public ResponseEntity<?> actualizarAsignacion(@RequestBody User_RoleAssignDTO assignDTO){
+        try {
+            if (assignDTO.getIdUserRole() <= 0 || assignDTO.getIdUser() <= 0 || assignDTO.getIdRole() <= 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Los IDs deben ser mayores a 0");
+            }
+
+            User_Role updated = urS.updateRoleAssignment(assignDTO);
+
+            User_RoleDTO response = new User_RoleDTO();
+            response.setIdUserRole(updated.getIdUserRole());
+            response.setIdUser(updated.getUser().getIdUser());
+            response.setNameUser(updated.getUser().getNameUser());
+            response.setIdRole(updated.getRole().getIdRole());
+            response.setNameRole(updated.getRole().getNameRole());
+
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar asignación: " + e.getMessage());
         }
     }
     @DeleteMapping("/{idUserRole}")

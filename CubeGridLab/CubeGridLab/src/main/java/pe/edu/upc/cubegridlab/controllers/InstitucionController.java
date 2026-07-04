@@ -46,6 +46,34 @@ public class InstitucionController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> buscar(@PathVariable int id) {
+        Optional<Institucion> institucion = iS.listId(id);
+        if (institucion.isPresent()) {
+            return ResponseEntity.ok(convertToDTO(institucion.get()));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/Actualizar")
+    public ResponseEntity<?> actualizar(@RequestBody InstitucionDTO dto) {
+        if (dto == null || dto.getIdInstitucion() <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID de institución inválido");
+        }
+
+        Optional<Institucion> existente = iS.listId(dto.getIdInstitucion());
+        if (existente.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Institución no encontrada");
+        }
+
+        Institucion institucion = existente.get();
+        if (dto.getNombre() != null && !dto.getNombre().isBlank()) institucion.setNombre(dto.getNombre());
+        if (dto.getTipo() != null) institucion.setTipo(dto.getTipo());
+
+        iS.update(institucion);
+        return ResponseEntity.ok(convertToDTO(institucion));
+    }
+
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<String> eliminar(@PathVariable int id) {
         if (id <= 0) {
