@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.cubegridlab.dtos.ResultadoEvaluacionInsertDTO;
 import pe.edu.upc.cubegridlab.dtos.ResultadoEvaluacionResponseDTO;
+import pe.edu.upc.cubegridlab.dtos.ResultadoEvaluacionUpdateDTO;
 import pe.edu.upc.cubegridlab.entities.Evaluaciones;
 import pe.edu.upc.cubegridlab.entities.ResultadoEvaluacion;
 import pe.edu.upc.cubegridlab.entities.User;
@@ -90,6 +91,41 @@ public class ResultadoEvaluacionController {
     public ResponseEntity<?> eliminar(@PathVariable int id) {
         rS.delete(id);
         return ResponseEntity.ok("Resultado eliminado correctamente");
+    }
+
+    @PutMapping("/Actualizar")
+    public ResponseEntity<?> actualizar(@RequestBody ResultadoEvaluacionUpdateDTO dto) {
+        if (dto == null || dto.getIdResultado() == null || dto.getIdResultado() <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID de resultado invalido");
+        }
+
+        Optional<ResultadoEvaluacion> existente = rS.listId(dto.getIdResultado());
+        if (existente.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resultado no encontrado");
+        }
+
+        ResultadoEvaluacion resultado = existente.get();
+        if (dto.getPuntaje() != null && !dto.getPuntaje().isBlank()) resultado.setPuntaje(dto.getPuntaje());
+        if (dto.getDescripcion() != null) resultado.setDescripcion(dto.getDescripcion());
+
+        if (dto.getIdUser() != null) {
+            Optional<User> user = uS.listId(dto.getIdUser());
+            if (user.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
+            }
+            resultado.setUser(user.get());
+        }
+
+        if (dto.getIdEvaluacion() != null) {
+            Optional<Evaluaciones> evaluacion = eS.listId(dto.getIdEvaluacion());
+            if (evaluacion.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Evaluacion no encontrada");
+            }
+            resultado.setEvaluaciones(evaluacion.get());
+        }
+
+        rS.update(resultado);
+        return ResponseEntity.ok(toResponseDTO(resultado));
     }
 
     private ResultadoEvaluacionResponseDTO toResponseDTO(ResultadoEvaluacion resultado) {

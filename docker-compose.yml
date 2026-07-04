@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+
+  app:
+    build: .
+    container_name: cubegridlab-app
+    mem_limit: 512m
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/CubeGridLab
+      DB_USER_NAME: postgres
+      DB_PASSWORD: J0rg3HD
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+
+  db:
+    image: postgres:16
+    container_name: cubegridlab-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: J0rg3HD
+      POSTGRES_DB: CubeGridLab
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d CubeGridLab"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
