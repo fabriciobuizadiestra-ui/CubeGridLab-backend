@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pe.edu.upc.cubegridlab.dtos.CantidadModulosPorCursoDTO;
 import pe.edu.upc.cubegridlab.dtos.CursoInsertDTO;
 import pe.edu.upc.cubegridlab.dtos.CursoResponseDTO;
 import pe.edu.upc.cubegridlab.dtos.CursoUpdateDTO;
@@ -16,6 +17,7 @@ import pe.edu.upc.cubegridlab.servicesinterfaces.IUser_RoleService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @RestController
@@ -66,6 +68,26 @@ public class CursoController {
                 })
                 .distinct()
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/reporte-modulos")
+    public ResponseEntity<?> reporteCantidadModulosPorCurso() {
+        List<Object[]> filas = cR.cantidadModulosPorCurso();
+
+        if (filas.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No hay cursos registrados");
+        }
+
+        List<CantidadModulosPorCursoDTO> respuesta = new ArrayList<>();
+        for (Object[] fila : filas) {
+            CantidadModulosPorCursoDTO dto = new CantidadModulosPorCursoDTO();
+            dto.setIdCurso(((Number) fila[0]).intValue());
+            dto.setNombreCurso((String) fila[1]);
+            dto.setCantidadModulos(((Number) fila[2]).intValue());
+            respuesta.add(dto);
+        }
+
+        return ResponseEntity.ok(respuesta);
     }
 
     @PostMapping("/Registrar")
@@ -156,5 +178,3 @@ public class CursoController {
         return dto;
     }
 }
-
-
