@@ -6,6 +6,7 @@ public class UserUpdateDTO {
     private String lastNameUser;
     private String emailUser;
     private String passwordUser;
+    private int idInstitucion;
 
     public String getNameUser() {
         return nameUser;
@@ -45,5 +46,13 @@ public class UserUpdateDTO {
 
     public void setIdUser(int idUser) {
         this.idUser = idUser;
+    }
+
+    public int getIdInstitucion() {
+        return idInstitucion;
+    }
+
+    public void setIdInstitucion(int idInstitucion) {
+        this.idInstitucion = idInstitucion;
     }
 }

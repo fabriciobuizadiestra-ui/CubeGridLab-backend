@@ -6,6 +6,7 @@ public class UserDTO {
     private String lastNameUser;
     private String emailUser;
     private String roleUser;
+    private InstitucionDTO institucion;
 
     public int getIdUser() {
         return idUser;
@@ -45,5 +46,13 @@ public class UserDTO {
 
     public void setLastNameUser(String lastNameUser) {
         this.lastNameUser = lastNameUser;
+    }
+
+    public InstitucionDTO getInstitucion() {
+        return institucion;
+    }
+
+    public void setInstitucion(InstitucionDTO institucion) {
+        this.institucion = institucion;
     }
 }
