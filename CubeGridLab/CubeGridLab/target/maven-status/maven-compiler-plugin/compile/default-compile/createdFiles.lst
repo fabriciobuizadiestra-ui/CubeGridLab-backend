@@ -28,6 +28,7 @@ pe\edu\upc\cubegridlab\dtos\MisionResponseDTO.class
 pe\edu\upc\cubegridlab\entities\Simulaciones.class
 pe\edu\upc\cubegridlab\dtos\UpdateSensorDataDTO.class
 pe\edu\upc\cubegridlab\dtos\MisionInsertDTO.class
+pe\edu\upc\cubegridlab\util\CorsConfig.class
 pe\edu\upc\cubegridlab\servicesimplements\DataGeneratorService.class
 pe\edu\upc\cubegridlab\servicesimplements\EvaluacionesImplement.class
 pe\edu\upc\cubegridlab\dtos\AssignRoleDTO.class
@@ -60,6 +61,7 @@ pe\edu\upc\cubegridlab\servicesimplements\MisionesImplement.class
 pe\edu\upc\cubegridlab\dtos\CreateIoTDeviceDTO.class
 pe\edu\upc\cubegridlab\servicesinterfaces\ICubesatService.class
 pe\edu\upc\cubegridlab\servicesinterfaces\IIoTDeviceService.class
+pe\edu\upc\cubegridlab\util\CorsConfig$1.class
 pe\edu\upc\cubegridlab\dtos\SimulacionResponseDTO.class
 pe\edu\upc\cubegridlab\servicesinterfaces\IResultadoEvaluacionesService.class
 pe\edu\upc\cubegridlab\dtos\IoTDeviceDTO.class
@@ -119,6 +121,7 @@ pe\edu\upc\cubegridlab\servicesinterfaces\IUserService.class
 pe\edu\upc\cubegridlab\servicesimplements\SensorDataServiceImplement.class
 pe\edu\upc\cubegridlab\dtos\RoleDTO.class
 pe\edu\upc\cubegridlab\dtos\CreateSensorDataDTO.class
+pe\edu\upc\cubegridlab\dtos\InstitucionConUsuariosDTO.class
 pe\edu\upc\cubegridlab\entities\ResultadoEvaluacion.class
 pe\edu\upc\cubegridlab\dtos\CreateSensorDTO.class
 pe\edu\upc\cubegridlab\dtos\InstitucionDTO.class

@@ -10,6 +10,7 @@ public class UserInsertDTO {
     private String passwordUser;
     private LocalDate registerDateUser;
     private Boolean statusUser;
+    private int idInstitucion;
 
     public int getIdUser() {
         return idUser;
@@ -65,5 +66,13 @@ public class UserInsertDTO {
 
     public void setStatusUser(Boolean statusUser) {
         this.statusUser = statusUser;
+    }
+
+    public int getIdInstitucion() {
+        return idInstitucion;
+    }
+
+    public void setIdInstitucion(int idInstitucion) {
+        this.idInstitucion = idInstitucion;
     }
 }

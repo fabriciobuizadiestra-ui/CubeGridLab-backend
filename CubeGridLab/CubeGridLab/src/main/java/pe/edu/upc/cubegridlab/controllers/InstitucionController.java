@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.cubegridlab.dtos.InstitucionDTO;
 import pe.edu.upc.cubegridlab.dtos.InstitucionInsertDTO;
+import pe.edu.upc.cubegridlab.dtos.InstitucionConUsuariosDTO;
 import pe.edu.upc.cubegridlab.entities.Institucion;
 import pe.edu.upc.cubegridlab.servicesinterfaces.IInstitucionService;
 
@@ -24,6 +25,14 @@ public class InstitucionController {
     public ResponseEntity<List<InstitucionDTO>> listar() {
         List<InstitucionDTO> lista = iS.list().stream()
                 .map(this::convertToDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/cantidad-usuarios")
+    public ResponseEntity<List<InstitucionConUsuariosDTO>> listarConCantidadUsuarios() {
+        List<InstitucionConUsuariosDTO> lista = iS.list().stream()
+                .map(this::convertToInstitucionConUsuariosDTO)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(lista);
     }
@@ -100,6 +109,15 @@ public class InstitucionController {
         dto.setIdInstitucion(institucion.getIdInstitucion());
         dto.setNombre(institucion.getNombre());
         dto.setTipo(institucion.getTipo());
+        return dto;
+    }
+
+    private InstitucionConUsuariosDTO convertToInstitucionConUsuariosDTO(Institucion institucion) {
+        InstitucionConUsuariosDTO dto = new InstitucionConUsuariosDTO();
+        dto.setIdInstitucion(institucion.getIdInstitucion());
+        dto.setNombre(institucion.getNombre());
+        int cantidadUsuarios = institucion.getUsuarios() != null ? institucion.getUsuarios().size() : 0;
+        dto.setCantidadUsuarios(cantidadUsuarios);
         return dto;
     }
 }

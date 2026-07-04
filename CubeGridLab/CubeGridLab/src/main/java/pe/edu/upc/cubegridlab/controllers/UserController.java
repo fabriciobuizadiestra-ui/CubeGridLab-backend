@@ -5,14 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pe.edu.upc.cubegridlab.dtos.InstitucionDTO;
 import pe.edu.upc.cubegridlab.dtos.UserDTO;
 import pe.edu.upc.cubegridlab.dtos.UserFindByRegisterDateAndStatusDTO;
 import pe.edu.upc.cubegridlab.dtos.UserInsertDTO;
 import pe.edu.upc.cubegridlab.dtos.UserUpdateDTO;
 import pe.edu.upc.cubegridlab.entities.User;
 import pe.edu.upc.cubegridlab.entities.User_Role;
+import pe.edu.upc.cubegridlab.entities.Institucion;
 import pe.edu.upc.cubegridlab.servicesinterfaces.IUserService;
 import pe.edu.upc.cubegridlab.servicesinterfaces.IUser_RoleService;
+import pe.edu.upc.cubegridlab.servicesinterfaces.IInstitucionService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,6 +29,9 @@ public class UserController {
     private IUserService uS;
     @Autowired
     private IUser_RoleService urS;
+    @Autowired
+    private IInstitucionService iS;
+
     @GetMapping
     public ResponseEntity<List<UserDTO>> listar()
     {
@@ -52,8 +58,18 @@ public class UserController {
             dto.setRoleUser(roles);
         }
 
+        // Obtener la institución del usuario
+        if (user.getInstitucion() != null) {
+            InstitucionDTO instDTO = new InstitucionDTO();
+            instDTO.setIdInstitucion(user.getInstitucion().getIdInstitucion());
+            instDTO.setNombre(user.getInstitucion().getNombre());
+            instDTO.setTipo(user.getInstitucion().getTipo());
+            dto.setInstitucion(instDTO);
+        }
+
         return dto;
     }
+
     @PostMapping("/registra")
     public ResponseEntity<?> registrar(@RequestBody UserInsertDTO dto){
         // Validaciones de entrada
@@ -65,11 +81,23 @@ public class UserController {
                     .body("Campos obligatorios faltantes");
         }
 
+        if (dto.getIdInstitucion() <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("ID de institución inválido");
+        }
+
         // Validar que el email no exista ya
         Optional<User> existingUser = uS.findByEmail(dto.getEmailUser());
         if (existingUser.isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("El email ya está registrado");
+        }
+
+        // Validar que la institución existe
+        Optional<Institucion> institucion = iS.listId(dto.getIdInstitucion());
+        if (institucion.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("La institución especificada no existe");
         }
 
         try {
@@ -83,6 +111,9 @@ public class UserController {
             if (u.getRegisterDateUser() == null) {
                 u.setRegisterDateUser(java.time.LocalDate.now());
             }
+
+            // Asignar la institución
+            u.setInstitucion(institucion.get());
 
             User usuario = uS.insert(u);
             UserDTO responseDTO = convertUserToDTO(usuario);
@@ -136,6 +167,15 @@ public class UserController {
                 u.setPasswordUser(dto.getPasswordUser());
             }
 
+            if (dto.getIdInstitucion() > 0) {
+                Optional<Institucion> institucion = iS.listId(dto.getIdInstitucion());
+                if (institucion.isEmpty()) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body("La institución especificada no existe");
+                }
+                u.setInstitucion(institucion.get());
+            }
+
             uS.update(u);
 
             return ResponseEntity.ok("Usuario actualizado correctamente");
@@ -144,6 +184,7 @@ public class UserController {
                     .body("Error al actualizar usuario: " + e.getMessage());
         }
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable int id) {
         // Validación de entrada
@@ -167,6 +208,7 @@ public class UserController {
                     .body("Error al eliminar usuario: " + e.getMessage());
         }
     }
+
     @GetMapping("/filtro-de-correos")
     public ResponseEntity<?> findByStatusTrueAndRegistrationDateBetween(@RequestParam("startDate") LocalDate startDate,
                                              @RequestParam("endDate") LocalDate endDate){
@@ -189,6 +231,7 @@ public class UserController {
         }
         return ResponseEntity.ok(listaBusqueda);
     }
+
     @PostMapping("/logout")
     public ResponseEntity<String> cerrarSesion() {
         return ResponseEntity.ok("Sesión cerrada correctamente");
