@@ -5,6 +5,7 @@ public class LeccionResponseDTO {
     private String titulo;
     private String contenido;
     private Integer idModulo;
+    private String modulo;
 
     public Integer getIdLeccion() {
         return idLeccion;
@@ -36,6 +37,14 @@ public class LeccionResponseDTO {
 
     public void setIdModulo(Integer idModulo) {
         this.idModulo = idModulo;
+    }
+
+    public String getModulo() {
+        return modulo;
+    }
+
+    public void setModulo(String modulo) {
+        this.modulo = modulo;
     }
 }
 

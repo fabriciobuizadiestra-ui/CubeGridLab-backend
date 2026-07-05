@@ -69,19 +69,18 @@ public class ModuloController {
         if (dto == null || dto.getNombre() == null || dto.getNombre().isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nombre es obligatorio");
         }
+        if (dto.getIdCurso() == null || dto.getIdCurso() <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Curso es obligatorio");
+        }
 
         Modulo modulo = new Modulo();
         modulo.setNombre(dto.getNombre());
 
-        if (dto.getIdCurso() != null) {
-            Optional<Curso> curso = cR.findById(dto.getIdCurso());
-            if (curso.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Curso no encontrado");
-            }
-            modulo.setCurso(curso.get());
-        } else {
-            modulo.setCurso(null);
+        Optional<Curso> curso = cR.findById(dto.getIdCurso());
+        if (curso.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Curso no encontrado");
         }
+        modulo.setCurso(curso.get());
 
         Modulo saved = mR.save(modulo);
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponseDTO(saved));
@@ -116,6 +115,8 @@ public class ModuloController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Curso no encontrado");
             }
             modulo.setCurso(curso.get());
+        } else if (modulo.getCurso() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Curso es obligatorio");
         }
 
         mR.save(modulo);
@@ -130,9 +131,18 @@ public class ModuloController {
 
     private ModuloResponseDTO toResponseDTO(Modulo modulo) {
         ModuloResponseDTO dto = new ModuloResponseDTO();
+        final String cursoNoAsignado = "Sin curso asignado";
+
         dto.setIdModulo(modulo.getIdModulo());
         dto.setNombre(modulo.getNombre());
-        if (modulo.getCurso() != null) dto.setIdCurso(modulo.getCurso().getIdCurso());
+        if (modulo.getCurso() != null) {
+            dto.setIdCurso(modulo.getCurso().getIdCurso());
+            String nombreCurso = modulo.getCurso().getNombre() != null ? modulo.getCurso().getNombre().trim() : "";
+            dto.setCurso(nombreCurso.isBlank() ? cursoNoAsignado : nombreCurso);
+        } else {
+            dto.setIdCurso(0);
+            dto.setCurso(cursoNoAsignado);
+        }
         return dto;
     }
 }
