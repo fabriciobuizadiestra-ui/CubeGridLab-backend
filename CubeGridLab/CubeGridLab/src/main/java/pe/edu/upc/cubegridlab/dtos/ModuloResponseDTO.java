@@ -4,6 +4,7 @@ public class ModuloResponseDTO {
     private Integer idModulo;
     private String nombre;
     private Integer idCurso;
+    private String curso;
 
     public Integer getIdModulo() {
         return idModulo;
@@ -27,6 +28,14 @@ public class ModuloResponseDTO {
 
     public void setIdCurso(Integer idCurso) {
         this.idCurso = idCurso;
+    }
+
+    public String getCurso() {
+        return curso;
+    }
+
+    public void setCurso(String curso) {
+        this.curso = curso;
     }
 }
 

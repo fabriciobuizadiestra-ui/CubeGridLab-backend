@@ -45,22 +45,21 @@ public class LeccionController {
     @PostMapping("/Registrar")
     public ResponseEntity<?> registrar(@RequestBody LeccionInsertDTO dto) {
         if (dto == null || dto.getTitulo() == null || dto.getTitulo().isBlank()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Título es obligatorio");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Titulo es obligatorio");
+        }
+        if (dto.getIdModulo() == null || dto.getIdModulo() <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Modulo es obligatorio");
+        }
+
+        Optional<Modulo> modulo = mR.findById(dto.getIdModulo());
+        if (modulo.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Modulo no encontrado");
         }
 
         Leccion leccion = new Leccion();
         leccion.setTitulo(dto.getTitulo());
         leccion.setContenido(dto.getContenido());
-
-        if (dto.getIdModulo() != null) {
-            Optional<Modulo> modulo = mR.findById(dto.getIdModulo());
-            if (modulo.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Módulo no encontrado");
-            }
-            leccion.setModulo(modulo.get());
-        } else {
-            leccion.setModulo(null);
-        }
+        leccion.setModulo(modulo.get());
 
         Leccion saved = lR.save(leccion);
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponseDTO(saved));
@@ -78,12 +77,12 @@ public class LeccionController {
     @PutMapping("/Actualizar")
     public ResponseEntity<?> actualizar(@RequestBody LeccionUpdateDTO dto) {
         if (dto == null || dto.getIdLeccion() == null || dto.getIdLeccion() <= 0) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID de lección invalido");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID de leccion invalido");
         }
 
         Optional<Leccion> existente = lR.findById(dto.getIdLeccion());
         if (existente.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lección no encontrada");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Leccion no encontrada");
         }
 
         Leccion leccion = existente.get();
@@ -93,9 +92,11 @@ public class LeccionController {
         if (dto.getIdModulo() != null) {
             Optional<Modulo> modulo = mR.findById(dto.getIdModulo());
             if (modulo.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Módulo no encontrado");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Modulo no encontrado");
             }
             leccion.setModulo(modulo.get());
+        } else if (leccion.getModulo() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Modulo es obligatorio");
         }
 
         lR.save(leccion);
@@ -105,16 +106,24 @@ public class LeccionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable int id) {
         lR.deleteById(id);
-        return ResponseEntity.ok("Lección eliminada correctamente");
+        return ResponseEntity.ok("Leccion eliminada correctamente");
     }
 
     private LeccionResponseDTO toResponseDTO(Leccion leccion) {
         LeccionResponseDTO dto = new LeccionResponseDTO();
+        final String moduloNoAsignado = "Sin modulo asignado";
+
         dto.setIdLeccion(leccion.getIdLeccion());
         dto.setTitulo(leccion.getTitulo());
         dto.setContenido(leccion.getContenido());
-        if (leccion.getModulo() != null) dto.setIdModulo(leccion.getModulo().getIdModulo());
+        if (leccion.getModulo() != null) {
+            dto.setIdModulo(leccion.getModulo().getIdModulo());
+            String nombreModulo = leccion.getModulo().getNombre() != null ? leccion.getModulo().getNombre().trim() : "";
+            dto.setModulo(nombreModulo.isBlank() ? moduloNoAsignado : nombreModulo);
+        } else {
+            dto.setIdModulo(0);
+            dto.setModulo(moduloNoAsignado);
+        }
         return dto;
     }
 }
-

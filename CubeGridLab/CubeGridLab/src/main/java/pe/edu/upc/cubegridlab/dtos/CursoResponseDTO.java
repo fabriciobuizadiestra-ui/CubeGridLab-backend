@@ -4,7 +4,7 @@ public class CursoResponseDTO {
     private Integer idCurso;
     private String nombre;
     private String descripcion;
-    private Integer idDocente;
+    private String docente;
 
     public Integer getIdCurso() {
         return idCurso;
@@ -30,12 +30,11 @@ public class CursoResponseDTO {
         this.descripcion = descripcion;
     }
 
-    public Integer getIdDocente() {
-        return idDocente;
+    public String getDocente() {
+        return docente;
     }
 
-    public void setIdDocente(Integer idDocente) {
-        this.idDocente = idDocente;
+    public void setDocente(String docente) {
+        this.docente = docente;
     }
 }
-

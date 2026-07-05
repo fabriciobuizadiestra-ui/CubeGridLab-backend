@@ -43,9 +43,8 @@ public class CursoController {
 
     @GetMapping("/docente/{id}")
     public List<CursoResponseDTO> listarPorDocente(@PathVariable int id) {
-        return cR.findAll()
+        return cR.findByDocente_IdUser(id)
                 .stream()
-                .filter(c -> c.getDocente() != null && c.getDocente().getIdUser() == id)
                 .map(this::toResponseDTO)
                 .collect(Collectors.toList());
     }
@@ -171,10 +170,24 @@ public class CursoController {
 
     private CursoResponseDTO toResponseDTO(Curso curso) {
         CursoResponseDTO dto = new CursoResponseDTO();
+        final String docenteNoAsignado = "Sin docente asignado";
+
         dto.setIdCurso(curso.getIdCurso());
         dto.setNombre(curso.getNombre());
         dto.setDescripcion(curso.getDescripcion());
-        if (curso.getDocente() != null) dto.setIdDocente(curso.getDocente().getIdUser());
+        dto.setDocente(buildNombreDocente(curso.getDocente(), docenteNoAsignado));
         return dto;
+    }
+
+    private String buildNombreDocente(User docente, String docenteNoAsignado) {
+        if (docente == null) return docenteNoAsignado;
+
+        String nombre = docente.getNameUser() != null ? docente.getNameUser().trim() : "";
+        String apellido = docente.getLastNameUser() != null ? docente.getLastNameUser().trim() : "";
+        String nombreCompleto = (nombre + " " + apellido).trim();
+        if (!nombreCompleto.isBlank()) return nombreCompleto;
+
+        String email = docente.getEmailUser() != null ? docente.getEmailUser().trim() : "";
+        return !email.isBlank() ? email : docenteNoAsignado;
     }
 }
