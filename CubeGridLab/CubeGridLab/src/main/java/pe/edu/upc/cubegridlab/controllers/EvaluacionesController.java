@@ -29,7 +29,7 @@ public class EvaluacionesController {
         return eS.list();
     }
 
-    @PostMapping
+    @PostMapping("/Registrar")
     public ResponseEntity<?> registrar(@RequestBody EvaluacionInsertDTO dto) {
         if (dto == null || dto.getTitulo() == null || dto.getTitulo().isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

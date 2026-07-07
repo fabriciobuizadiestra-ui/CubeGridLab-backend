@@ -54,14 +54,24 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/register").permitAll()
-                .requestMatchers("/users/registra").permitAll()
-                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
-                .requestMatchers(HttpMethod.GET).permitAll()
-                .requestMatchers(HttpMethod.POST).permitAll()
-                .requestMatchers(HttpMethod.PUT).permitAll()
-                .requestMatchers(HttpMethod.DELETE).permitAll()
-                .anyRequest().authenticated()
+                    .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/register").permitAll()
+                    .requestMatchers("/users/registra").permitAll()
+                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+
+                    // GET access rules
+                    .requestMatchers(HttpMethod.GET, "/cursos/**", "/modulos/**", "/lecciones/**").hasAnyRole("ADMIN","TEACHER","STUDENT")
+                    .requestMatchers(HttpMethod.GET, "/evaluaciones/**", "/evaluaciones").hasAnyRole("ADMIN","TEACHER","STUDENT")
+                    .requestMatchers(HttpMethod.GET, "/simulaciones/**").hasAnyRole("ADMIN","TEACHER","STUDENT","RESEARCHER")
+                    .requestMatchers(HttpMethod.GET, "/iot-devices/**").hasAnyRole("ADMIN","RESEARCHER")
+                    .requestMatchers(HttpMethod.GET, "/cubesats/**").hasAnyRole("ADMIN","RESEARCHER")
+                    .requestMatchers(HttpMethod.GET, "/misiones/**").hasAnyRole("ADMIN","TEACHER")
+
+                    // Modification (POST/PUT/DELETE) reserved for ADMIN
+                    .requestMatchers(HttpMethod.POST, "/cursos/**", "/modulos/**", "/lecciones/**", "/evaluaciones/**", "/simulaciones/**", "/iot-devices/**", "/cubesats/**", "/misiones/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/cursos/**", "/modulos/**", "/lecciones/**", "/evaluaciones/**", "/simulaciones/**", "/iot-devices/**", "/cubesats/**", "/misiones/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/cursos/**", "/modulos/**", "/lecciones/**", "/evaluaciones/**", "/simulaciones/**", "/iot-devices/**", "/cubesats/**", "/misiones/**").hasRole("ADMIN")
+
+                    .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
